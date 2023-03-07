@@ -13,6 +13,9 @@ namespace ConfigCrypter.Console.Options
         [Option('t', "thumbprint", Required = true, HelpText = "The thumbprint of the certificate. This can only be used in Windows environments.", Group = "CertLocation")]
         public string CertThumbprint { get; set; }
 
+        [Option('l', "thumbprint-field", Required = true, HelpText = "The fild in the specified config file that contains the thumbprint of the certificate. This can only be used in Windows environments.", Group = "CertLocation")]
+        public string CertThumbprintField { get; set; }
+
         [Option('s', "password", Required = false, HelpText = "Password of the certificate (if available).", Default = null)]
         public string CertificatePassword { get; set; }
 
