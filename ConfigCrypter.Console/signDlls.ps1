@@ -11,7 +11,7 @@ if ($Configuration -eq "Release") {
 	$cert = Get-ChildItem -Path Cert:\* -Recurse -CodeSigningCert
 	Write-Output "Signing output in $ProjectDir\bin\Release\net8.0"
 	
-	cd $ProjectDir\bin\Release\net8.0
+	cd $ProjectDir\obj\Release\net8.0
 	
 	$signed = Get-ChildItem -include ('*.dll', '*.exe') -Recurse | ForEach-object {Get-AuthenticodeSignature $_} | Where-Object {$_.status -ne "Valid"}
     $notSigned = Get-ChildItem -include ('*.dll', '*.exe') -Recurse | ForEach-object {Get-AuthenticodeSignature $_} | Where-Object {$_.status -eq "Valid"}
