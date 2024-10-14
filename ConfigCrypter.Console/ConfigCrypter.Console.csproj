@@ -2,7 +2,7 @@
 
 	<PropertyGroup>
 		<OutputType>Exe</OutputType>
-		<TargetFramework>netcoreapp3.1</TargetFramework>
+		<TargetFramework>net8.0</TargetFramework>
 		<PackAsTool>true</PackAsTool>
 		<ToolCommandName>config-crypter</ToolCommandName>
 		<PackageOutputPath>./nupkg</PackageOutputPath>
@@ -36,5 +36,9 @@
 	<ItemGroup>
 	  <ProjectReference Include="..\ConfigCrypter\ConfigCrypter.csproj" />
 	</ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File $(ProjectDir)signDlls.ps1 $(ProjectDir) $(Configuration)&#xD;&#xA;" />
+	</Target>
 
 </Project>
