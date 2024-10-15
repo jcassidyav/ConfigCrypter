@@ -17,6 +17,7 @@
 		<Company>DevAttic</Company>
 		<PackageTags>config appsettings encryption tool netcore</PackageTags>
 		<Version>1.1.0</Version>
+		<SignAssembly>False</SignAssembly>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -30,7 +31,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="CommandLineParser" Version="2.8.0" />
+		<PackageReference Include="CommandLineParser" Version="2.8.0">
+			<ReferenceOutputAssembly>true</ReferenceOutputAssembly>
+		</PackageReference>
 	</ItemGroup>
 
 	<ItemGroup>
@@ -38,7 +41,7 @@
 	</ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
-	  <Exec Command="powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File $(ProjectDir)signDlls.ps1 $(ProjectDir) $(Configuration)&#xD;&#xA;" />
+	  <Exec Command="powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File $(ProjectDir)signDlls.ps1 $(ProjectDir) $(Configuration) $(SolutionDir)&#xD;&#xA;" />
 	</Target>
 
 </Project>
