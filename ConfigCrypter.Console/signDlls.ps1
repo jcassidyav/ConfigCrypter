@@ -45,7 +45,10 @@ if ($Configuration -eq "Release") {
 	# Write-Output "*****Signing output in $signLoc"
 	# Sign-Files -DirectoryPath $signLoc -Certificate $cert
 
-	
+	# Delete any nugets now as unsigned, build step nuget pack, will create now so avoid conflicts
+    cd $SolutionDir
+    Get-ChildItem -Recurse -Filter *.nupkg | Remove-Item -Force
+
 	
 	
 } else {
