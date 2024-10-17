@@ -18,7 +18,6 @@
 		<PackageTags>config appsettings encryption tool netcore</PackageTags>
 		<Version>1.1.0</Version>
 		<SignAssembly>False</SignAssembly>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
