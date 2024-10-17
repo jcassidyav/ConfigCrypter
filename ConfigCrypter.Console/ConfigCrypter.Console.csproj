@@ -18,6 +18,7 @@
 		<PackageTags>config appsettings encryption tool netcore</PackageTags>
 		<Version>1.1.0</Version>
 		<SignAssembly>False</SignAssembly>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -40,7 +41,7 @@
 	  <ProjectReference Include="..\ConfigCrypter\ConfigCrypter.csproj" />
 	</ItemGroup>
 
-	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	<Target Name="PostBuild" AfterTargets="Pack">
 	  <Exec Command="powershell.exe -ExecutionPolicy Bypass -NoProfile -NonInteractive -File $(ProjectDir)signDlls.ps1 $(ProjectDir) $(Configuration) $(SolutionDir)&#xD;&#xA;" />
 	</Target>
 

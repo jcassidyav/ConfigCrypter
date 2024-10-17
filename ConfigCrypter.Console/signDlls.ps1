@@ -33,17 +33,17 @@ function Sign-Files {
 if ($Configuration -eq "Release") {
     
 	$cert = Get-ChildItem -Path Cert:\* -Recurse -CodeSigningCert
-    $signLoc = "$ProjectDir\obj\Release\net8.0"
-	Write-Output "*****Signing output in $signLoc"
-	Sign-Files -DirectoryPath $signLoc -Certificate $cert
+    # $signLoc = "$ProjectDir\obj\Release\net8.0"
+	# Write-Output "*****Signing output in $signLoc"
+	# Sign-Files -DirectoryPath $signLoc -Certificate $cert
 
     $signLoc = "$ProjectDir\bin\Release\net8.0"
 	Write-Output "*****Signing output in $signLoc"
 	Sign-Files -DirectoryPath $signLoc -Certificate $cert
 
-    $signLoc = "$SolutionDir\ConfigCrypter\bin\Release\net8.0"
-	Write-Output "*****Signing output in $signLoc"
-	Sign-Files -DirectoryPath $signLoc -Certificate $cert
+    # $signLoc = "$SolutionDir\ConfigCrypter\bin\Release\net8.0"
+	# Write-Output "*****Signing output in $signLoc"
+	# Sign-Files -DirectoryPath $signLoc -Certificate $cert
 
 	
 	
