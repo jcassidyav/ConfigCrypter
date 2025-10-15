@@ -8,11 +8,11 @@ $SolutionDir = $args[2]
 
 Write-Output "Solution Dir: $SolutionDir"
 
+$signToolPath = "$env:USERPROFILE\.dotnet\tools\azuresigntool.exe"
+
 function Sign-Files {
     param (
-        [string]$DirectoryPath,
-        [System.Security.Cryptography.X509Certificates.X509Certificate2]$Certificate,
-        [string]$TimestampServer = "http://timestamp.comodoca.com/authenticode"
+        [string]$DirectoryPath
     )
 
     # Change to the specified directory
@@ -20,30 +20,21 @@ function Sign-Files {
 
     # Get files that are not signed
     $signed = Get-ChildItem -include ('*.dll', '*.exe') -Recurse | ForEach-Object { Get-AuthenticodeSignature $_ } | Where-Object { $_.Status -ne "Valid" }
-    $notSigned = Get-ChildItem -include ('*.dll', '*.exe') -Recurse | ForEach-Object { Get-AuthenticodeSignature $_ } | Where-Object { $_.Status -eq "Valid" }
-    $notSignedFileNames = Get-ChildItem -Path $notSigned.Path | Sort-Object | Select-Object -Unique -Property Name
-
+    $files = $signed | Select-Object -ExpandProperty Path
     # Sign the files if there are any unsigned files
-    if ($signed -ne $null) {
-        Set-AuthenticodeSignature -FilePath $signed.Path -Certificate $Certificate -TimestampServer $TimestampServer
+    if ($null -ne $signed) {
+        & $signToolPath sign -kvu $env:KEY_VAULT_URI -kvc $env:KEY_VAULT_CERTIFICATE_NAME -kvi $env:KEY_VAULT_APPLICATION_CLIENT_ID -kvs $env:KEY_VAULT_CLIENT_SECRET --azure-key-vault-tenant-id $env:KEY_VAULT_TENANT_ID -tr http://timestamp.globalsign.com/tsa/advanced -td sha256 --max-degree-of-parallelism 1  @files
     }
 }
 
 
 if ($Configuration -eq "Release") {
     
-	$cert = Get-ChildItem -Path Cert:\* -Recurse -CodeSigningCert
-    # $signLoc = "$ProjectDir\obj\Release\net8.0"
-	# Write-Output "*****Signing output in $signLoc"
-	# Sign-Files -DirectoryPath $signLoc -Certificate $cert
-
+	
     $signLoc = "$ProjectDir\bin\Release\net8.0"
 	Write-Output "*****Signing output in $signLoc"
-	Sign-Files -DirectoryPath $signLoc -Certificate $cert
+	Sign-Files -DirectoryPath $signLoc
 
-    # $signLoc = "$SolutionDir\ConfigCrypter\bin\Release\net8.0"
-	# Write-Output "*****Signing output in $signLoc"
-	# Sign-Files -DirectoryPath $signLoc -Certificate $cert
 
 	# Delete any nugets now as unsigned, build step nuget pack, will create now so avoid conflicts
     cd $SolutionDir
