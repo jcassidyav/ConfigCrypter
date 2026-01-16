@@ -1,7 +1,9 @@
-﻿using System;
-using DevAttic.ConfigCrypter.Crypters;
+﻿using DevAttic.ConfigCrypter.Crypters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DevAttic.ConfigCrypter.ConfigCrypters.Json
 {
@@ -80,6 +82,25 @@ namespace DevAttic.ConfigCrypter.ConfigCrypters.Json
             }
 
             return (parsedJson, keyToken);
+        }
+
+        public List<string> GetKeyValueList(string json, string configKey)
+        {
+            var keyResult = this.ParseConfig(json, configKey);
+            List<string> result;
+            if (keyResult.Key is JArray)
+            {
+                result = keyResult.Key.Values<string>().Select(k=>k.Replace(":",".")).ToList();
+            } else
+            {
+                throw new InvalidOperationException($"The key {configKey} is not an array");
+            }
+            
+            if(result.Count == 0)
+            {
+                throw new InvalidOperationException($"The key {configKey} is an empty array");
+            }
+            return result;
         }
     }
 }

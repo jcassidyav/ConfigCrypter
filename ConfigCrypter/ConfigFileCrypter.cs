@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using DevAttic.ConfigCrypter.ConfigCrypters;
 
 namespace DevAttic.ConfigCrypter
@@ -39,6 +40,25 @@ namespace DevAttic.ConfigCrypter
             File.WriteAllText(targetFilePath, decryptedConfigContent);
         }
 
+        public void DecryptKeysInFile(string filePath, List<string> configKeys)
+        {
+            var decryptedConfigContent = File.ReadAllText(filePath);
+
+            foreach (var configKey in configKeys)
+            {
+                decryptedConfigContent = _configCrypter.DecryptKey(decryptedConfigContent, configKey);
+            }
+            var targetFilePath = GetDestinationConfigPath(filePath, _options.DecryptedConfigPostfix);
+            File.WriteAllText(targetFilePath, decryptedConfigContent);
+        }
+
+        public List<string> GetKeysToOperateOn(string filePath, string configKey)
+        {
+            var configContent = File.ReadAllText(filePath);
+            
+            return _configCrypter.GetKeyValueList(configContent, configKey);
+        }
+
         /// <summary>
         /// <para>Encrypts the given key in the config file.</para>
         /// <para> </para>
@@ -52,6 +72,22 @@ namespace DevAttic.ConfigCrypter
             var configContent = File.ReadAllText(filePath);
             var encryptedConfigContent = _configCrypter.EncryptKey(configContent, configKey);
 
+            var targetFilePath = GetDestinationConfigPath(filePath, _options.EncryptedConfigPostfix);
+            File.WriteAllText(targetFilePath, encryptedConfigContent);
+        }
+        /// <summary>
+        /// Encrypts the given keys in the config file.
+        /// </summary>
+        /// <param name="filePath">Path of the configuration file.</param>
+        /// <param name="configKeys">Keys to encrypt, passed in a format the underlying config crypter understands.</param>
+        public void EncryptKeysInFile(string filePath, List<string> configKeys)
+        {
+            var configContent = File.ReadAllText(filePath);
+            var encryptedConfigContent = configContent;
+            foreach (var configKey in configKeys)
+            {
+                encryptedConfigContent = _configCrypter.EncryptKey(encryptedConfigContent, configKey);
+            }
             var targetFilePath = GetDestinationConfigPath(filePath, _options.EncryptedConfigPostfix);
             File.WriteAllText(targetFilePath, encryptedConfigContent);
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace DevAttic.ConfigCrypter.ConfigCrypters
 {
@@ -24,5 +25,13 @@ namespace DevAttic.ConfigCrypter.ConfigCrypters
         /// <returns>The content of the config file where the key has been encrypted.</returns>
         /// <remarks>It up to the implementer how to interpret the format of the config key.</remarks>
         string EncryptKey(string configFileContent, string configKey);
+
+        /// <summary>
+        /// Returns the key value from an appsettings.json file
+        /// </summary>
+        /// <param name="json"></param>
+        /// <param name="configKey"></param>
+        /// <returns></returns>
+        public List<string> GetKeyValueList(string json, string configKey);
     }
 }
