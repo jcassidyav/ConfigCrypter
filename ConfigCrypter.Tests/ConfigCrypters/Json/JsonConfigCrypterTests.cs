@@ -13,10 +13,10 @@ namespace DevAttic.ConfigCrypter.Tests.ConfigCrypters.Json
             var crypterMock = Mocks.Crypter;
             var jsonCrypter = new JsonConfigCrypter(crypterMock.Object);
             var jsonObject = (Name: "Widget", FieldsToDecrypt: new string[] { "General:SXEncryptKey",
-                                                                                "AvaeonLogging:EncryptionKey",
+                                                                                "Logging:EncryptionKey",
                                                                                 "EncryptionUtils:EncryptionKeys:TransferKey",
-                                                                                "Twilio:SID",
-                                                                                "Twilio:Token",
+                                                                                "TheThing:SID",
+                                                                                "TheThing:Token",
                                                                                 "DocumentWriter:Username",
                                                                                 "DocumentWriter:Password",
                                                                                 "DocumentWriter:Domain",
@@ -31,16 +31,16 @@ namespace DevAttic.ConfigCrypter.Tests.ConfigCrypters.Json
                                                                                 "AuthServer:InternalDummyPassword",
                                                                                 "AuthServer:InternalDummyDuoToken",
                                                                                 "SecureModel:TokenKey",
-                                                                                "MySafewayWs:Username",
-                                                                                "MySafewayWs:Password",
-                                                                                "IdCardsPdf:Pdf4NetSerialNumber",
-                                                                                "ConnectionStrings:MySafewayDB",
-                                                                                "ConnectionStrings:SafewayDB",
+                                                                                "TheThing:Username",
+                                                                                "TheThing:Password",
+                                                                                "TheThing:TheThing",
+                                                                                "ConnectionStrings:TheThing",
+                                                                                "ConnectionStrings:TheThing",
                                                                                 "DataProtectionConfiguration:ConnectionString",
                                                                                 "Translation:AsymKey",
                                                                                 "Translation:GoogleProjectNo",
-                                                                                "Email:SendGridAPIKey",
-                                                                                "TrackLoc:MapApiKey",
+                                                                                "TheThing:TheThing",
+                                                                                "TrackLoc:TheThing",
                                                                                 "Csrf:HashKey"});
             var json = JsonConvert.SerializeObject(jsonObject);
 
