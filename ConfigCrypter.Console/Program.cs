@@ -21,12 +21,31 @@ namespace ConfigCrypter.Console
                 .WithParsed<EncryptOptions>(opts =>
                 {
                     var crypter = CreateCrypter(opts);
-                    crypter.EncryptKeyInFile(opts.ConfigFile, opts.Key);
+                    
+
+                    if (!string.IsNullOrEmpty(opts.Key))
+                    {
+                        crypter.EncryptKeyInFile(opts.ConfigFile, opts.Key);
+                    }
+                    else if (!string.IsNullOrEmpty(opts.KeySourceField) && !string.IsNullOrEmpty(opts.KeySource))
+                    {
+                        var fields = crypter.GetKeysToOperateOn(opts.KeySource, opts.KeySourceField);
+                        crypter.EncryptKeysInFile(opts.ConfigFile, fields);
+                       
+                    }
                 })
                 .WithParsed<DecryptOptions>(opts =>
                 {
                     var crypter = CreateCrypter(opts);
-                    crypter.DecryptKeyInFile(opts.ConfigFile, opts.Key);
+                    if (!string.IsNullOrEmpty(opts.Key))
+                    {
+                        crypter.DecryptKeyInFile(opts.ConfigFile, opts.Key);
+                    } else if(!string.IsNullOrEmpty(opts.KeySourceField) && !string.IsNullOrEmpty(opts.KeySource))
+                    {
+                        var fields = crypter.GetKeysToOperateOn(opts.KeySource, opts.KeySourceField);
+                        crypter.DecryptKeysInFile(opts.ConfigFile, fields);
+                        
+                    }
                 });
         }
 

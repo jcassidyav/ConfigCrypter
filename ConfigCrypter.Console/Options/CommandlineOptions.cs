@@ -19,7 +19,7 @@ namespace ConfigCrypter.Console.Options
         [Option('s', "password", Required = false, HelpText = "Password of the certificate (if available).", Default = null)]
         public string CertificatePassword { get; set; }
 
-        [Option('k', "key", Required = true, HelpText = "The key to encrypt in the config file.")]
+        [Option('k', "key", Required = false, HelpText = "The key to encrypt in the config file.")]
         public string Key { get; set; }
 
         [Option('f', "file", Required = true, HelpText = "The path to the config file.")]
@@ -30,6 +30,12 @@ namespace ConfigCrypter.Console.Options
 
         [Option("format", Default = ConfigFormat.Json, HelpText = "The format of the config file.")]
         public ConfigFormat ConfigFormat { get; set; }
+
+        [Option("key-source", Required = false, HelpText = "The app settings file containing the list of fields to encrypt/decrypt.")]
+        public string KeySource { get; set; }
+        
+        [Option("key-source-field", Required = false, HelpText = "The field in the app settings file containing the list of fields to encrypt/decrypt.")]
+        public string KeySourceField { get; set; }
     }
 
     public enum ConfigFormat
