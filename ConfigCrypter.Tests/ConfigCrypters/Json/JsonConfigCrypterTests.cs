@@ -46,8 +46,8 @@ namespace DevAttic.ConfigCrypter.Tests.ConfigCrypters.Json
 
             var list = jsonCrypter.GetKeyValueList(json, "Item2");
             Assert.Equal(30, list.Count);
-            Assert.Equal("Csrf:HashKey", list[29]);
-            Assert.Equal("General:SXEncryptKey", list[0]);
+            Assert.Equal("Csrf.HashKey", list[29]);
+            Assert.Equal("General.SXEncryptKey", list[0]);
 
         }
 

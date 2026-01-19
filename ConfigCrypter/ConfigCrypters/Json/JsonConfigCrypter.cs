@@ -78,7 +78,7 @@ namespace DevAttic.ConfigCrypter.ConfigCrypters.Json
 
             if (keyToken == null)
             {
-                throw new InvalidOperationException($"The key {configKey} could not be found.");
+                throw new KeyNotFoundException($"The key {configKey} could not be found.");
             }
 
             return (parsedJson, keyToken);

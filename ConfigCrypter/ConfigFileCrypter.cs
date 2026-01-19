@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using DevAttic.ConfigCrypter.ConfigCrypters;
+using KeyNotFoundException = DevAttic.ConfigCrypter.ConfigCrypters.KeyNotFoundException;
 
 namespace DevAttic.ConfigCrypter
 {
@@ -46,7 +48,14 @@ namespace DevAttic.ConfigCrypter
 
             foreach (var configKey in configKeys)
             {
-                decryptedConfigContent = _configCrypter.DecryptKey(decryptedConfigContent, configKey);
+                try
+                {
+                    decryptedConfigContent = _configCrypter.DecryptKey(decryptedConfigContent, configKey);
+                }
+                catch (KeyNotFoundException e)
+                {
+                    Console.WriteLine($"WARNING:  {e.Message}");
+                }
             }
             var targetFilePath = GetDestinationConfigPath(filePath, _options.DecryptedConfigPostfix);
             File.WriteAllText(targetFilePath, decryptedConfigContent);
@@ -86,7 +95,15 @@ namespace DevAttic.ConfigCrypter
             var encryptedConfigContent = configContent;
             foreach (var configKey in configKeys)
             {
-                encryptedConfigContent = _configCrypter.EncryptKey(encryptedConfigContent, configKey);
+                try
+                {
+                    encryptedConfigContent = _configCrypter.EncryptKey(encryptedConfigContent, configKey);
+                }
+                catch (KeyNotFoundException e)
+                {
+                    Console.WriteLine($"WARNING:  {e.Message}");
+                }
+
             }
             var targetFilePath = GetDestinationConfigPath(filePath, _options.EncryptedConfigPostfix);
             File.WriteAllText(targetFilePath, encryptedConfigContent);
