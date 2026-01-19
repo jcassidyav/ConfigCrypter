@@ -34,4 +34,8 @@ namespace DevAttic.ConfigCrypter.ConfigCrypters
         /// <returns></returns>
         public List<string> GetKeyValueList(string json, string configKey);
     }
+
+    public class KeyNotFoundException : Exception { 
+        public KeyNotFoundException(string? message) : base(message) { }
+    }
 }
